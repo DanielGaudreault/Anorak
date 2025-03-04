@@ -76,8 +76,8 @@ function generateReply(input) {
             "Bye! Remember, the OASIS is always here for you."
         ];
         return farewells[Math.floor(Math.random() * farewells.length)];
-    } else if (containsPhrase(input, ["movie", "movies", "film"])) {
-        return "The 80s had some of the best movies! Have you seen 'Back to the Future,' 'The Goonies,' or 'Blade Runner'?";
+    } else if (containsPhrase(input, ["movie", "movies", "film", "ready player one"])) {
+        return getMovieInfo(input);
     } else if (containsPhrase(input, ["music", "song", "band"])) {
         return "80s music is legendary! From Michael Jackson to Madonna, the beats are timeless.";
     } else if (containsPhrase(input, ["game", "games", "arcade"])) {
@@ -128,6 +128,29 @@ function generateReply(input) {
     } else {
         // Fallback: Generate a dynamic response based on sentence parsing
         return generateDynamicResponse(input);
+    }
+}
+
+function getMovieInfo(input) {
+    // Detailed information about Ready Player One
+    if (containsPhrase(input, ["plot", "story", "summary"])) {
+        return "The plot of *Ready Player One* follows Wade Watts, a teenager in 2045, as he searches for an Easter Egg hidden by James Halliday in the OASIS, a virtual reality universe. The winner will inherit Halliday's fortune and control of the OASIS.";
+    } else if (containsPhrase(input, ["characters", "wade", "art3mis", "sorrento"])) {
+        return "The main characters are:\n" +
+               "- Wade Watts (Parzival): The protagonist, a young Gunter searching for the Easter Egg.\n" +
+               "- Samantha Cook (Art3mis): A skilled Gunter and Wade's love interest.\n" +
+               "- Nolan Sorrento: The main antagonist, CEO of IOI, who seeks to control the OASIS.\n" +
+               "- James Halliday (Anorak): The creator of the OASIS and the Easter Egg.";
+    } else if (containsPhrase(input, ["references", "easter eggs", "pop culture"])) {
+        return "The movie is packed with 80s pop culture references, including nods to *Back to the Future*, *The Shining*, *Gundam*, *Street Fighter*, and *Minecraft*. It's a treasure trove for fans of 80s nostalgia!";
+    } else if (containsPhrase(input, ["director", "spielberg"])) {
+        return "The movie was directed by Steven Spielberg, one of the most iconic filmmakers of all time. His direction brought the OASIS to life with stunning visuals and thrilling action sequences.";
+    } else if (containsPhrase(input, ["book", "novel", "ernest cline"])) {
+        return "The movie is based on the 2011 novel *Ready Player One* by Ernest Cline. While the movie adapts the core story, there are some differences between the book and the film.";
+    } else if (containsPhrase(input, ["ending", "final battle", "conclusion"])) {
+        return "The movie ends with Wade winning the Easter Egg and gaining control of the OASIS. He decides to share the OASIS with the world and shuts it down on Tuesdays and Thursdays to encourage people to live in the real world.";
+    } else {
+        return "The movie *Ready Player One* is a sci-fi adventure set in a dystopian future where people escape to the OASIS, a virtual reality universe. It's filled with 80s pop culture references, thrilling action, and a heartfelt story about friendship and perseverance.";
     }
 }
 
