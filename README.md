@@ -1,6 +1,6 @@
-# Anorak
+# Anorak AI - Ready Player One
 
-Anorak AI is a simple web-based AI assistant that interacts with users using OpenAI's GPT-3.5-turbo model.
+Anorak AI is a web-based AI assistant inspired by *Ready Player One*. It uses OpenAI's GPT-3.5-turbo model to simulate Anorak, the wise guide from the OASIS.
 
 ## Setup
 
@@ -13,3 +13,4 @@ Anorak AI is a simple web-based AI assistant that interacts with users using Ope
 ## Usage
 
 - Type your message in the input box and press "Send" to interact with Anorak.
+- Anorak will respond with wisdom and references to 80s pop culture and *Ready Player One* lore.
