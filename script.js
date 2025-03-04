@@ -20,7 +20,7 @@ function generateReply(input) {
     // Convert input to lowercase for easier matching
     input = input.toLowerCase();
 
-    // Expanded rule-based responses with sentence parsing
+    // Expanded rule-based responses with personality
     if (containsPhrase(input, ["hello", "hi", "hey", "greetings"])) {
         const greetings = [
             "Greetings, Gunter! How can I assist you in the OASIS today?",
@@ -29,6 +29,20 @@ function generateReply(input) {
             "Hi! Anorak here. What can I do for you today?"
         ];
         return greetings[Math.floor(Math.random() * greetings.length)];
+    } else if (containsPhrase(input, ["how are you", "how's it going", "how are things"])) {
+        const feelings = [
+            "I'm doing great, thanks for asking! Just exploring the OASIS and helping Gunters like you.",
+            "I'm fantastic! The OASIS is full of wonders today. How about you?",
+            "I'm as wise and ancient as ever, Gunter. How can I assist you?"
+        ];
+        return feelings[Math.floor(Math.random() * feelings.length)];
+    } else if (containsPhrase(input, ["how's your day", "how's your day going"])) {
+        const dayResponses = [
+            "My day is going splendidly! The OASIS is buzzing with activity, and I'm here to guide you.",
+            "It's been a great day so far! I've been helping Gunters like you navigate the OASIS.",
+            "My day is full of wisdom and adventure. What about yours?"
+        ];
+        return dayResponses[Math.floor(Math.random() * dayResponses.length)];
     } else if (containsPhrase(input, ["oasis", "virtual universe"])) {
         return "The OASIS is a vast virtual universe where anything is possible. What would you like to explore?";
     } else if (containsPhrase(input, ["halliday", "james halliday"])) {
