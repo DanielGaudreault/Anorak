@@ -14,7 +14,10 @@ app.post('/talk-to-anorak', async (req, res) => {
     try {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: userMessage }],
+            messages: [
+                { role: "system", content: "You are Anorak, the wise and knowledgeable guide from the OASIS. Respond in a helpful and nostalgic tone, referencing 80s pop culture and Ready Player One lore." },
+                { role: "user", content: userMessage }
+            ],
             max_tokens: 150
         }, {
             headers: {
