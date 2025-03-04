@@ -20,8 +20,8 @@ function generateReply(input) {
     // Convert input to lowercase for easier matching
     input = input.toLowerCase();
 
-    // Expanded rule-based responses
-    if (input.includes("hello") || input.includes("hi") || input.includes("hey") || input.includes("greetings")) {
+    // Expanded rule-based responses with sentence parsing
+    if (containsPhrase(input, ["hello", "hi", "hey", "greetings"])) {
         const greetings = [
             "Greetings, Gunter! How can I assist you in the OASIS today?",
             "Hello, adventurer! What brings you to the OASIS?",
@@ -29,19 +29,19 @@ function generateReply(input) {
             "Hi! Anorak here. What can I do for you today?"
         ];
         return greetings[Math.floor(Math.random() * greetings.length)];
-    } else if (input.includes("oasis")) {
+    } else if (containsPhrase(input, ["oasis", "virtual universe"])) {
         return "The OASIS is a vast virtual universe where anything is possible. What would you like to explore?";
-    } else if (input.includes("halliday")) {
+    } else if (containsPhrase(input, ["halliday", "james halliday"])) {
         return "James Halliday was the creator of the OASIS and the ultimate dreamer. His legacy lives on in every corner of this virtual world.";
-    } else if (input.includes("egg")) {
+    } else if (containsPhrase(input, ["egg", "easter egg"])) {
         return "Ah, the Easter Egg! The ultimate prize hidden by Halliday. Are you ready to embark on the quest to find it?";
-    } else if (input.includes("quest")) {
+    } else if (containsPhrase(input, ["quest", "challenge", "puzzle"])) {
         return "The quest for the Easter Egg is filled with challenges, puzzles, and 80s pop culture references. Good luck, Gunter!";
-    } else if (input.includes("80s")) {
+    } else if (containsPhrase(input, ["80s", "eighties", "1980s"])) {
         return "The 1980s were a golden age of pop culture. From movies to music, Halliday's love for the 80s is everywhere in the OASIS.";
-    } else if (input.includes("thank you") || input.includes("thanks")) {
+    } else if (containsPhrase(input, ["thank you", "thanks"])) {
         return "You're welcome, Gunter! Always here to help you navigate the OASIS.";
-    } else if (input.includes("bye") || input.includes("goodbye")) {
+    } else if (containsPhrase(input, ["bye", "goodbye", "see you"])) {
         const farewells = [
             "Farewell, Gunter! Until we meet again in the OASIS.",
             "Goodbye, adventurer! May your journey be filled with treasures.",
@@ -49,59 +49,64 @@ function generateReply(input) {
             "Bye! Remember, the OASIS is always here for you."
         ];
         return farewells[Math.floor(Math.random() * farewells.length)];
-    } else if (input.includes("movie") || input.includes("movies")) {
+    } else if (containsPhrase(input, ["movie", "movies", "film"])) {
         return "The 80s had some of the best movies! Have you seen 'Back to the Future,' 'The Goonies,' or 'Blade Runner'?";
-    } else if (input.includes("music") || input.includes("song")) {
+    } else if (containsPhrase(input, ["music", "song", "band"])) {
         return "80s music is legendary! From Michael Jackson to Madonna, the beats are timeless.";
-    } else if (input.includes("game") || input.includes("games")) {
+    } else if (containsPhrase(input, ["game", "games", "arcade"])) {
         return "Classic 80s games like 'Pac-Man,' 'Donkey Kong,' and 'Tetris' are still iconic today.";
-    } else if (input.includes("who are you")) {
+    } else if (containsPhrase(input, ["who are you", "what are you"])) {
         return "I am Anorak, the guide to the OASIS. Think of me as your friendly AI companion.";
-    } else if (input.includes("help")) {
+    } else if (containsPhrase(input, ["help", "assist", "support"])) {
         return "I'm here to help! Ask me about the OASIS, Halliday, 80s pop culture, or the Easter Egg.";
-    } else if (input.includes("joke")) {
+    } else if (containsPhrase(input, ["joke", "funny", "laugh"])) {
         const jokes = [
             "Why did the scarecrow win an award? Because he was outstanding in his field!",
             "What do you call fake spaghetti? An impasta!",
             "Why don’t skeletons fight each other? They don’t have the guts."
         ];
         return jokes[Math.floor(Math.random() * jokes.length)];
-    } else if (input.includes("weather")) {
+    } else if (containsPhrase(input, ["weather", "climate"])) {
         return "In the OASIS, the weather is always perfect for adventure!";
-    } else if (input.includes("time")) {
+    } else if (containsPhrase(input, ["time", "clock", "hour"])) {
         return "Time is relative in the OASIS. But right now, it's always a good time for fun!";
-    } else if (input.includes("history")) {
+    } else if (containsPhrase(input, ["history", "past", "historical"])) {
         return "History is a treasure trove of lessons. From ancient civilizations to modern revolutions, every era has shaped the world we know today.";
-    } else if (input.includes("science")) {
+    } else if (containsPhrase(input, ["science", "technology", "innovation"])) {
         return "Science is the key to understanding the universe. From quantum physics to space exploration, it’s a never-ending journey of discovery.";
-    } else if (input.includes("philosophy")) {
+    } else if (containsPhrase(input, ["philosophy", "meaning of life", "existential"])) {
         return "Philosophy explores the deepest questions of existence. From Socrates to Nietzsche, thinkers have pondered the meaning of life.";
-    } else if (input.includes("culture")) {
+    } else if (containsPhrase(input, ["culture", "art", "music"])) {
         return "Culture is the soul of humanity. From art and music to traditions and beliefs, it defines who we are.";
-    } else if (input.includes("wisdom")) {
+    } else if (containsPhrase(input, ["wisdom", "knowledge", "learn"])) {
         return "Wisdom comes from experience and reflection. As a 100-year-old being, I’ve learned that the journey is more important than the destination.";
-    } else if (input.includes("life")) {
+    } else if (containsPhrase(input, ["life", "existence", "purpose"])) {
         return "Life is a precious gift. Cherish every moment, learn from every experience, and always strive to grow.";
-    } else if (input.includes("future")) {
+    } else if (containsPhrase(input, ["future", "tomorrow", "innovation"])) {
         return "The future is a canvas waiting to be painted. With innovation and imagination, anything is possible.";
-    } else if (input.includes("past")) {
+    } else if (containsPhrase(input, ["past", "history", "yesterday"])) {
         return "The past is a teacher. It reminds us of where we’ve been and guides us toward where we’re going.";
-    } else if (input.includes("technology")) {
+    } else if (containsPhrase(input, ["technology", "tech", "innovation"])) {
         return "Technology is the bridge between dreams and reality. From the first computer to AI, it’s reshaping the world.";
-    } else if (input.includes("art")) {
+    } else if (containsPhrase(input, ["art", "painting", "creative"])) {
         return "Art is the expression of the soul. From Van Gogh to Banksy, it captures the essence of humanity.";
-    } else if (input.includes("space")) {
+    } else if (containsPhrase(input, ["space", "universe", "stars"])) {
         return "Space is the final frontier. From the moon landing to Mars exploration, it’s a testament to human curiosity.";
-    } else if (input.includes("love")) {
+    } else if (containsPhrase(input, ["love", "heart", "emotion"])) {
         return "Love is the most powerful force in the universe. It connects us all and gives life meaning.";
-    } else if (input.includes("happiness")) {
+    } else if (containsPhrase(input, ["happiness", "joy", "smile"])) {
         return "Happiness is found in the little things. A smile, a kind word, or a moment of peace can light up the soul.";
-    } else if (input.includes("knowledge")) {
+    } else if (containsPhrase(input, ["knowledge", "learn", "teach"])) {
         return "Knowledge is the key to unlocking the mysteries of the universe. Seek it with an open mind and a curious heart.";
     } else {
-        // Fallback: Generate a dynamic response based on keywords
+        // Fallback: Generate a dynamic response based on sentence parsing
         return generateDynamicResponse(input);
     }
+}
+
+function containsPhrase(input, phrases) {
+    // Check if any of the phrases are in the input
+    return phrases.some(phrase => input.includes(phrase));
 }
 
 function generateDynamicResponse(input) {
