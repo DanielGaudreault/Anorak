@@ -15,7 +15,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     border: 2px solid #00ff00;
-    width: 400px;
+    width: 600px; /* Increased width */
     text-align: center;
 }
 
@@ -43,10 +43,10 @@ p {
 }
 
 #chat-box {
-    height: 200px;
+    height: 300px; /* Increased height */
     border: 1px solid #00ff00;
-    margin-bottom: 10px;
-    padding: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
     overflow-y: auto;
     text-align: left;
     background: rgba(0, 0, 0, 0.6);
@@ -54,6 +54,7 @@ p {
 
 #chat-log {
     color: #00ff00;
+    font-size: 16px; /* Slightly larger font */
 }
 
 .input-container {
@@ -68,6 +69,7 @@ p {
     border: 1px solid #00ff00;
     color: #00ff00;
     font-family: 'Orbitron', sans-serif;
+    font-size: 16px; /* Slightly larger font */
 }
 
 #send-btn {
@@ -78,6 +80,7 @@ p {
     border-radius: 5px;
     cursor: pointer;
     font-family: 'Orbitron', sans-serif;
+    font-size: 16px; /* Slightly larger font */
 }
 
 #send-btn:hover {
