@@ -21,7 +21,7 @@ function generateReply(input) {
     input = input.toLowerCase();
 
     // Rule-based responses
-    if (input.includes("hello") || input.includes("hi")) {
+    if (input.includes("hello") || input.includes("hi") || input.includes("hey")) {
         return "Greetings, Gunter! How can I assist you in the OASIS today?";
     } else if (input.includes("oasis")) {
         return "The OASIS is a vast virtual universe where anything is possible. What would you like to explore?";
@@ -33,9 +33,9 @@ function generateReply(input) {
         return "The quest for the Easter Egg is filled with challenges, puzzles, and 80s pop culture references. Good luck, Gunter!";
     } else if (input.includes("80s")) {
         return "The 1980s were a golden age of pop culture. From movies to music, Halliday's love for the 80s is everywhere in the OASIS.";
-    } else if (input.includes("thank you")) {
+    } else if (input.includes("thank you") || input.includes("thanks")) {
         return "You're welcome, Gunter! Always here to help you navigate the OASIS.";
-    } else if (input.includes("bye")) {
+    } else if (input.includes("bye") || input.includes("goodbye")) {
         return "Farewell, Gunter! Until we meet again in the OASIS.";
     } else {
         return "Hmm, I'm not sure I understand. Can you ask me something about the OASIS, Halliday, or the 80s?";
