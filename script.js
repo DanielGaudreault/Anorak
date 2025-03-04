@@ -1,3 +1,7 @@
+// Memory to store the last question and context
+let lastQuestion = "";
+let context = "";
+
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -14,11 +18,20 @@ function sendMessage() {
 
     const reply = generateReply(userInput);
     appendMessage('Anorak', reply);
+
+    // Store the last question and context
+    lastQuestion = userInput;
+    context = reply;
 }
 
 function generateReply(input) {
     // Convert input to lowercase for easier matching
     input = input.toLowerCase();
+
+    // Check for follow-up questions based on context
+    if (lastQuestion && input.includes("you")) {
+        return handleFollowUp(input);
+    }
 
     // Expanded rule-based responses with personality
     if (containsPhrase(input, ["hello", "hi", "hey", "greetings"])) {
@@ -115,6 +128,19 @@ function generateReply(input) {
     } else {
         // Fallback: Generate a dynamic response based on sentence parsing
         return generateDynamicResponse(input);
+    }
+}
+
+function handleFollowUp(input) {
+    // Handle follow-up questions based on context
+    if (lastQuestion.includes("how are you") || lastQuestion.includes("how's it going")) {
+        return "I'm still doing great! Thanks for checking in. How about you?";
+    } else if (lastQuestion.includes("oasis")) {
+        return "The OASIS is always full of surprises. What would you like to explore next?";
+    } else if (lastQuestion.includes("80s")) {
+        return "The 80s were truly a magical time. Do you have a favorite memory from that era?";
+    } else {
+        return "I'm here to help! What else would you like to know?";
     }
 }
 
