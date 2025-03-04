@@ -2,6 +2,34 @@
 let lastQuestion = "";
 let context = "";
 
+// Game state
+let currentLocation = "start";
+let inventory = [];
+
+// Locations and their descriptions
+const locations = {
+    start: {
+        description: "You are in the middle of the OASIS. The neon lights of the virtual world surround you. To the north, you see a massive castle. To the south, there's a dark forest. To the east, a bustling city. To the west, a desert.",
+        exits: { north: "castle", south: "forest", east: "city", west: "desert" }
+    },
+    castle: {
+        description: "You stand before the Castle of Anorak. Its towering walls are covered in glowing runes. The entrance is guarded by a massive gate.",
+        exits: { south: "start" }
+    },
+    forest: {
+        description: "You enter a dark forest. The trees are tall and twisted, and the air is thick with mist. You hear strange noises in the distance.",
+        exits: { north: "start" }
+    },
+    city: {
+        description: "You arrive in a bustling city filled with avatars of all shapes and sizes. Neon signs light up the streets, and the sound of music fills the air.",
+        exits: { west: "start" }
+    },
+    desert: {
+        description: "You find yourself in a vast desert. The sand stretches endlessly, and the sun beats down mercilessly.",
+        exits: { east: "start" }
+    }
+};
+
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -16,12 +44,38 @@ function sendMessage() {
     appendMessage('You', userInput);
     document.getElementById('user-input').value = '';
 
-    const reply = generateReply(userInput);
+    const reply = processInput(userInput);
     appendMessage('Anorak', reply);
 
     // Store the last question and context
     lastQuestion = userInput;
     context = reply;
+}
+
+function processInput(input) {
+    input = input.toLowerCase();
+
+    // Handle Zork-like commands
+    if (input.startsWith("go ")) {
+        const direction = input.split(" ")[1];
+        return move(direction);
+    } else if (input === "look") {
+        return describeLocation();
+    } else if (input.startsWith("examine ")) {
+        const object = input.split(" ")[1];
+        return examineObject(object);
+    } else if (input.startsWith("take ")) {
+        const item = input.split(" ")[1];
+        return takeItem(item);
+    } else if (input.startsWith("use ")) {
+        const item = input.split(" ")[1];
+        return useItem(item);
+    } else if (input === "inventory") {
+        return showInventory();
+    } else {
+        // Handle regular conversational inputs
+        return generateReply(input);
+    }
 }
 
 function generateReply(input) {
@@ -212,6 +266,45 @@ function generateDynamicResponse(input) {
     return "Hmm, I'm not sure I understand. Can you ask me something about the OASIS, Halliday, or the 80s?";
 }
 
+function move(direction) {
+    const exits = locations[currentLocation].exits;
+    if (exits[direction]) {
+        currentLocation = exits[direction];
+        return describeLocation();
+    } else {
+        return "You can't go that way.";
+    }
+}
+
+function describeLocation() {
+    return locations[currentLocation].description;
+}
+
+function examineObject(object) {
+    return `You examine the ${object}. It looks interesting, but you're not sure what to do with it yet.`;
+}
+
+function takeItem(item) {
+    inventory.push(item);
+    return `You take the ${item}.`;
+}
+
+function useItem(item) {
+    if (inventory.includes(item)) {
+        return `You use the ${item}. Something happens!`;
+    } else {
+        return `You don't have a ${item}.`;
+    }
+}
+
+function showInventory() {
+    if (inventory.length === 0) {
+        return "Your inventory is empty.";
+    } else {
+        return `You have: ${inventory.join(", ")}.`;
+    }
+}
+
 function appendMessage(sender, message) {
     const chatLog = document.getElementById('chat-log');
     const messageElement = document.createElement('div');
@@ -219,3 +312,6 @@ function appendMessage(sender, message) {
     chatLog.appendChild(messageElement);
     chatLog.scrollTop = chatLog.scrollHeight;
 }
+
+// Initial description
+appendMessage('Anorak', describeLocation());
