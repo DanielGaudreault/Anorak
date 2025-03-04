@@ -1,8 +1,0 @@
-@font-face {
-    font-family: 'Neon80s';
-    src: url('assets/fonts/Neon80s.ttf') format('truetype');
-}
-
-body {
-    font-family: 'Neon80s', sans-serif;
-}
