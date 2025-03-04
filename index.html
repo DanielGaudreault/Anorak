@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anorak AI</title>
+    <title>Anorak AI - Ready Player One</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Anorak AI</h1>
+        <div class="header">
+            <img src="assets/anorak.png" alt="Anorak Avatar" class="avatar">
+            <h1>Anorak AI</h1>
+            <p>Your Guide to the OASIS</p>
+        </div>
         <div id="chat-box">
             <div id="chat-log"></div>
         </div>
-        <input type="text" id="user-input" placeholder="Talk to Anorak...">
-        <button id="send-btn">Send</button>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Enter your question, Gunter...">
+            <button id="send-btn">Send</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
