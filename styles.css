@@ -87,3 +87,14 @@ p {
 #send-btn:hover {
     background: #00cc00;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Increase width on smaller screens */
+    }
+
+    #chat-box {
+        height: 300px; /* Adjust height for smaller screens */
+    }
+}
