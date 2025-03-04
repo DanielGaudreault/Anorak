@@ -15,7 +15,8 @@ body {
     padding: 20px;
     border-radius: 10px;
     border: 2px solid #00ff00;
-    width: 600px; /* Increased width */
+    width: 80%; /* Increased width to 80% of the screen */
+    max-width: 1200px; /* Maximum width to prevent it from becoming too wide */
     text-align: center;
 }
 
@@ -43,7 +44,7 @@ p {
 }
 
 #chat-box {
-    height: 300px; /* Increased height */
+    height: 400px; /* Increased height */
     border: 1px solid #00ff00;
     margin-bottom: 20px;
     padding: 15px;
