@@ -1,13 +1,9 @@
-// Memory to store the last question and context
 let lastQuestion = "";
 let context = "";
-
-// Game state
 let currentLocation = "start";
 let inventory = [];
 let score = 0;
 
-// Locations and their descriptions
 const locations = {
     start: {
         description: "You are in the middle of the OASIS. The neon lights of the virtual world surround you. To the north, you see a massive castle. To the south, there's a dark forest. To the east, a bustling city. To the west, a desert.",
@@ -64,8 +60,6 @@ async function sendMessage() {
 
 async function processInput(input) {
     input = input.toLowerCase();
-
-    // Handle Zork-like commands
     if (input.startsWith("go ")) {
         const direction = input.split(" ")[1];
         return move(direction);
@@ -83,7 +77,6 @@ async function processInput(input) {
     } else if (input === "inventory") {
         return showInventory();
     } else {
-        // Handle regular conversational inputs with API
         try {
             const response = await fetch('/talk-to-anorak', {
                 method: 'POST',
@@ -93,12 +86,12 @@ async function processInput(input) {
             const data = await response.json();
             if (data.error) {
                 console.error('Server error:', data.error);
-                return generateReply(input); // Fallback to local
+                return generateReply(input);
             }
             return data.reply;
         } catch (error) {
             console.error('Fetch error:', error);
-            return generateReply(input); // Fallback to local logic
+            return generateReply(input);
         }
     }
 }
