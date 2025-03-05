@@ -21,25 +21,38 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// OpenAI API Endpoint
 app.post('/talk-to-anorak', async (req, res) => {
     const userMessage = req.body.message || 'No message received';
     console.log(`[Server] Received: "${userMessage}"`);
 
     try {
-        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: "system", content: "You are Anorak, the wise and knowledgeable guide from the OASIS. Respond in a helpful and nostalgic tone, referencing 80s pop culture and Ready Player One lore." },
-                { role: "user", content: userMessage }
-            ],
-            max_tokens: 150
-        }, {
-            headers: {
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                'Content-Type': 'application/json'
+        const response = await axios.post(
+            'https://api.openai.com/v1/chat/completions',
+            {
+                model: "gpt-3.5-turbo",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are Anorak, the wise and knowledgeable guide from the OASIS. Respond in a helpful and nostalgic tone, referencing 80s pop culture and Ready Player One lore."
+                    },
+                    {
+                        role: "user",
+                        content: userMessage
+                    }
+                ],
+                max_tokens: 150
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
             }
-        });
+        );
+
         const reply = response.data.choices[0].message.content;
+        console.log(`[Server] OpenAI reply: "${reply}"`);
         return res.json({ reply });
     } catch (error) {
         console.error('[Server] OpenAI Error:', error.response?.data || error.message);
