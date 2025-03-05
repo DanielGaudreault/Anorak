@@ -82,17 +82,16 @@ async function processInput(input) {
     } else {
         console.log('[Client] Sending to API...');
         try {
-            const response = await fetch('/talk-to-anorak', {
+            const response = await fetch('http://localhost:3000/talk-to-anorak', { // Absolute URL
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: input })
             });
-            const data = await response.json();
-            if (data.error) {
-                console.error('[Client] Server error:', data.error);
-                return generateReply(input);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return data.reply;
+            const data = await response.json();
+            return data.reply || generateReply(input);
         } catch (error) {
             console.error('[Client] Fetch error:', error.message);
             return generateReply(input);
