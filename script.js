@@ -33,31 +33,32 @@ const locations = {
     }
 };
 
-document.getElementById('send-btn').addEventListener('click', sendMessage);
-document.getElementById('user-input').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        sendMessage();
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('[Client] DOM loaded');
+    document.getElementById('send-btn').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+    appendMessage('Anorak', describeLocation());
+    updateUI();
 });
 
 async function sendMessage() {
-    const userInput = document.getElementById('user-input').value;
+    const userInputElement = document.getElementById('user-input');
+    if (!userInputElement) {
+        console.error('[Client] Input element not found');
+        return;
+    }
+    const userInput = userInputElement.value;
     if (userInput.trim() === "") return;
 
     appendMessage('You', userInput);
     console.log(`[Client] Sent: "${userInput}"`);
-    document.getElementById('user-input').value = '';
+    userInputElement.value = '';
 
     const reply = await processInput(userInput);
     appendMessage('Anorak', reply);
     console.log(`[Client] Received: "${reply}"`);
-
-    lastQuestion = userInput;
-    context = reply;
-    updateUI();
-
-    const clickSound = document.getElementById('click-sound');
-    if (clickSound) clickSound.play();
 }
 
 async function processInput(input) {
@@ -82,16 +83,16 @@ async function processInput(input) {
     } else {
         console.log('[Client] Sending to API...');
         try {
-            const response = await fetch('http://localhost:3000/talk-to-anorak', { // Absolute URL
+            const response = await fetch('http://localhost:3000/talk-to-anorak', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: input })
             });
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            return data.reply || generateReply(input);
+            return data.reply || "API returned no reply, using local logic.";
         } catch (error) {
             console.error('[Client] Fetch error:', error.message);
             return generateReply(input);
@@ -342,6 +343,10 @@ function showInventory() {
 
 function appendMessage(sender, message) {
     const chatLog = document.getElementById('chat-log');
+    if (!chatLog) {
+        console.error('[Client] Chat log element not found');
+        return;
+    }
     const messageElement = document.createElement('div');
     messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
     chatLog.appendChild(messageElement);
@@ -349,10 +354,12 @@ function appendMessage(sender, message) {
 }
 
 function updateUI() {
-    document.getElementById('score').textContent = score;
+    const scoreElement = document.getElementById('score');
     const invList = document.getElementById('inventory-list');
+    if (!scoreElement || !invList) {
+        console.error('[Client] UI elements not found');
+        return;
+    }
+    scoreElement.textContent = score;
     invList.innerHTML = inventory.map(item => `<li>${item}</li>`).join("");
 }
-
-appendMessage('Anorak', describeLocation());
-updateUI();
