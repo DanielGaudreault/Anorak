@@ -5,35 +5,35 @@ let context = "";
 // Game state
 let currentLocation = "start";
 let inventory = [];
-let score = 0; // Added score tracking
+let score = 0;
 
 // Locations and their descriptions
 const locations = {
     start: {
         description: "You are in the middle of the OASIS. The neon lights of the virtual world surround you. To the north, you see a massive castle. To the south, there's a dark forest. To the east, a bustling city. To the west, a desert.",
         exits: { north: "castle", south: "forest", east: "city", west: "desert" },
-        items: [] // Added items array
+        items: []
     },
     castle: {
         description: "You stand before the Castle of Anorak. Its towering walls are covered in glowing runes. The entrance is guarded by a massive gate.",
         exits: { south: "start" },
         items: [],
-        locked: true // Added locked state for quest
+        locked: true
     },
     forest: {
         description: "You enter a dark forest. The trees are tall and twisted, and the air is thick with mist. You hear strange noises in the distance.",
         exits: { north: "start" },
-        items: ["glowing orb"] // Added item
+        items: ["glowing orb"]
     },
     city: {
         description: "You arrive in a bustling city filled with avatars of all shapes and sizes. Neon signs light up the streets, and the sound of music fills the air.",
         exits: { west: "start" },
-        items: ["rusty key"] // Added item
+        items: ["rusty key"]
     },
     desert: {
         description: "You find yourself in a vast desert. The sand stretches endlessly, and the sun beats down mercilessly.",
         exits: { east: "start" },
-        items: ["silver coin"] // Added item
+        items: ["silver coin"]
     }
 };
 
@@ -54,12 +54,10 @@ async function sendMessage() {
     const reply = await processInput(userInput);
     appendMessage('Anorak', reply);
 
-    // Store the last question and context
     lastQuestion = userInput;
     context = reply;
-    updateUI(); // Added UI update
+    updateUI();
 
-    // Play sound if available
     const clickSound = document.getElementById('click-sound');
     if (clickSound) clickSound.play();
 }
@@ -93,24 +91,23 @@ async function processInput(input) {
                 body: JSON.stringify({ message: input })
             });
             const data = await response.json();
-            return data.reply || generateReply(input); // Fallback to local logic
+            if (data.error) {
+                console.error('Server error:', data.error);
+                return generateReply(input); // Fallback to local
+            }
+            return data.reply;
         } catch (error) {
-            console.error('API Error:', error);
-            return generateReply(input); // Use local reply if API fails
+            console.error('Fetch error:', error);
+            return generateReply(input); // Fallback to local logic
         }
     }
 }
 
 function generateReply(input) {
-    // Convert input to lowercase for easier matching
     input = input.toLowerCase();
-
-    // Check for follow-up questions based on context
     if (lastQuestion && input.includes("you")) {
         return handleFollowUp(input);
     }
-
-    // Expanded rule-based responses with personality
     if (containsPhrase(input, ["hello", "hi", "hey", "greetings"])) {
         const greetings = [
             "Greetings, Gunter! How can I assist you in the OASIS today?",
@@ -203,13 +200,11 @@ function generateReply(input) {
     } else if (containsPhrase(input, ["knowledge", "learn", "teach"])) {
         return "Knowledge is the key to unlocking the mysteries of the universe. Seek it with an open mind and a curious heart.";
     } else {
-        // Fallback: Generate a dynamic response based on sentence parsing
         return generateDynamicResponse(input);
     }
 }
 
 function getMovieInfo(input) {
-    // Detailed information about Ready Player One
     if (containsPhrase(input, ["plot", "story", "summary"])) {
         return "The plot of *Ready Player One* follows Wade Watts, a teenager in 2045, as he searches for an Easter Egg hidden by James Halliday in the OASIS, a virtual reality universe. The winner will inherit Halliday's fortune and control of the OASIS.";
     } else if (containsPhrase(input, ["characters", "wade", "art3mis", "sorrento"])) {
@@ -232,7 +227,6 @@ function getMovieInfo(input) {
 }
 
 function handleFollowUp(input) {
-    // Handle follow-up questions based on context
     if (lastQuestion.includes("how are you") || lastQuestion.includes("how's it going")) {
         return "I'm still doing great! Thanks for checking in. How about you?";
     } else if (lastQuestion.includes("oasis")) {
@@ -245,12 +239,10 @@ function handleFollowUp(input) {
 }
 
 function containsPhrase(input, phrases) {
-    // Check if any of the phrases are in the input
     return phrases.some(phrase => input.includes(phrase));
 }
 
 function generateDynamicResponse(input) {
-    // Keywords related to the OASIS, 80s, and general knowledge
     const keywords = [
         { word: "80s", response: "The 80s were amazing! From neon fashion to iconic movies, it was a decade to remember." },
         { word: "music", response: "Music in the 80s was revolutionary. Bands like Duran Duran and Queen ruled the airwaves." },
@@ -278,14 +270,11 @@ function generateDynamicResponse(input) {
         { word: "knowledge", response: "Knowledge is the key to unlocking the mysteries of the universe. Seek it with an open mind and a curious heart." }
     ];
 
-    // Check if any keyword matches the input
     for (const keyword of keywords) {
         if (input.includes(keyword.word)) {
             return keyword.response;
         }
     }
-
-    // Default fallback response
     return "Hmm, I'm not sure I understand. Can you ask me something about the OASIS, Halliday, or the 80s?";
 }
 
@@ -293,7 +282,7 @@ function move(direction) {
     const exits = locations[currentLocation].exits;
     if (exits[direction]) {
         currentLocation = exits[direction];
-        score += 10; // Added scoring
+        score += 10;
         return describeLocation();
     } else {
         return "You can't go that way.";
@@ -306,19 +295,19 @@ function describeLocation() {
     if (locItems.length > 0) {
         desc += ` You see: ${locItems.join(", ")}.`;
     }
-    return desc; // Updated to include items
+    return desc;
 }
 
 function examineObject(object) {
     const locItems = locations[currentLocation].items || [];
     if (locItems.includes(object)) {
-        score += 5; // Added scoring
+        score += 5;
         return `You examine the ${object}. It looks interesting and might be key to your quest!`;
     }
     if (inventory.includes(object)) {
         return `You examine the ${object} in your inventory. It’s ready for action!`;
     }
-    return `You examine the ${object}. It looks interesting, but you're not sure what to do with it yet.`; // Original response as fallback
+    return `You examine the ${object}. It looks interesting, but you're not sure what to do with it yet.`;
 }
 
 function takeItem(item) {
@@ -326,10 +315,10 @@ function takeItem(item) {
     if (locItems.includes(item)) {
         inventory.push(item);
         locations[currentLocation].items = locItems.filter(i => i !== item);
-        score += 20; // Added scoring
+        score += 20;
         return `You take the ${item}. Nice find, Gunter!`;
     }
-    return `You take the ${item}.`; // Original response as fallback
+    return `You take the ${item}.`;
 }
 
 function useItem(item) {
@@ -337,12 +326,12 @@ function useItem(item) {
         if (item === "glowing orb" && currentLocation === "castle" && locations[currentLocation].locked) {
             locations[currentLocation].locked = false;
             inventory = inventory.filter(i => i !== item);
-            score += 100; // Added scoring for winning
+            score += 100;
             return "You use the glowing orb. The gate hums and swings open, revealing Halliday’s Easter Egg! You’ve won, Gunter!";
         }
-        return `You use the ${item}. Something happens!`; // Original response
+        return `You use the ${item}. Something happens!`;
     } else {
-        return `You don't have a ${item}.`; // Original response
+        return `You don't have a ${item}.`;
     }
 }
 
@@ -362,13 +351,11 @@ function appendMessage(sender, message) {
     chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-// Added UI update function
 function updateUI() {
     document.getElementById('score').textContent = score;
     const invList = document.getElementById('inventory-list');
     invList.innerHTML = inventory.map(item => `<li>${item}</li>`).join("");
 }
 
-// Initial description
 appendMessage('Anorak', describeLocation());
-updateUI(); // Added initial UI update
+updateUI();
