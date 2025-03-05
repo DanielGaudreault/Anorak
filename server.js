@@ -1,14 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
-const GOOGLE_API_KEY = 'AIzaSyDlbzA2lR4fBLxk1T1dD4A--JCAAcLPgfM'; // Your new Google key
+const GOOGLE_API_KEY = 'AIzaSyDlbzA2lR4fBLxk1T1dD4A--JCAAcLPgfM'; // Your Google key
 const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'; // Replace with your OpenAI key if you have one
 
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(__dirname)); // Serve static files from root
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html')); // Explicitly serve index.html
+});
 
 app.post('/talk-to-anorak', async (req, res) => {
     const userMessage = req.body.message;
