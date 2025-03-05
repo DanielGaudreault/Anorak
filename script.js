@@ -96,6 +96,10 @@ async function processInput(input) {
     }
 }
 
+// OpenAI API Call (Handled by the backend in server.js)
+// The frontend sends a POST request to the backend, which interacts with OpenAI.
+
+// Rest of your game logic functions (move, describeLocation, examineObject, etc.) go here...
 
 function generateReply(input) {
     input = input.toLowerCase();
