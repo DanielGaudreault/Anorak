@@ -4,6 +4,8 @@ const axios = require('axios');
 
 const app = express();
 const PORT = 3000;
+const GOOGLE_API_KEY = 'AIzaSyCksB_LXCIFFR9o2OrCK7i-nsEqX9tvplE'; // Your Google API key
+const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'; // Replace with your actual OpenAI key
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -21,7 +23,7 @@ app.post('/talk-to-anorak', async (req, res) => {
             max_tokens: 150
         }, {
             headers: {
-                'Authorization': `Bearer YOUR_OPENAI_API_KEY`,
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -30,7 +32,16 @@ app.post('/talk-to-anorak', async (req, res) => {
         res.json({ reply });
     } catch (error) {
         console.error('Error calling OpenAI API:', error);
-        res.status(500).json({ error: 'Error processing your request' });
+        // Fallback to Google Knowledge Graph
+        try {
+            const googleResponse = await axios.get(`https://kgsearch.googleapis.com/v1/entities:search?query=${encodeURIComponent(userMessage)}&key=${GOOGLE_API_KEY}&limit=1`);
+            const result = googleResponse.data.itemListElement[0]?.result;
+            const reply = result ? `From the OASIS archives: ${result.name}. ${result.description || "A curious find!"}` : "No data in my banks, Gunter.";
+            res.json({ reply });
+        } catch (googleError) {
+            console.error('Google API Error:', googleError);
+            res.status(500).json({ error: 'Error processing your request' });
+        }
     }
 });
 
