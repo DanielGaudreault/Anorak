@@ -88,7 +88,6 @@ p {
     background: #00cc00;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         width: 90%;
@@ -98,7 +97,6 @@ p {
     }
 }
 
-/* Added Styles */
 .game-container {
     display: flex;
     justify-content: space-between;
