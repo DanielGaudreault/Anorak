@@ -44,21 +44,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function sendMessage() {
-    const userInputElement = document.getElementById('user-input');
-    if (!userInputElement) {
-        console.error('[Client] Input element not found');
+    const userInput = document.getElementById('user-input').value.trim();
+    if (!userInput) {
+        alert("Please enter a message.");
         return;
     }
-    const userInput = userInputElement.value;
-    if (userInput.trim() === "") return;
 
     appendMessage('You', userInput);
-    console.log(`[Client] Sent: "${userInput}"`);
-    userInputElement.value = '';
+    document.getElementById('user-input').value = '';
+    document.getElementById('send-btn').disabled = true;
 
     const reply = await processInput(userInput);
     appendMessage('Anorak', reply);
-    console.log(`[Client] Received: "${reply}"`);
+
+    document.getElementById('send-btn').disabled = false;
 }
 
 async function processInput(input) {
@@ -81,16 +80,13 @@ async function processInput(input) {
     } else if (input === "inventory") {
         return showInventory();
     } else {
-        console.log('[Client] Sending to API...');
         try {
-            const response = await fetch('http://localhost:3000/talk-to-anorak', {
+            const response = await fetch('/talk-to-anorak', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: input })
             });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             return data.reply || "API returned no reply, using local logic.";
         } catch (error) {
@@ -99,6 +95,7 @@ async function processInput(input) {
         }
     }
 }
+
 
 function generateReply(input) {
     input = input.toLowerCase();
