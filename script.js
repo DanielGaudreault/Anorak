@@ -45,10 +45,12 @@ async function sendMessage() {
     if (userInput.trim() === "") return;
 
     appendMessage('You', userInput);
+    console.log(`[Client] Sent: "${userInput}"`);
     document.getElementById('user-input').value = '';
 
     const reply = await processInput(userInput);
     appendMessage('Anorak', reply);
+    console.log(`[Client] Received: "${reply}"`);
 
     lastQuestion = userInput;
     context = reply;
@@ -60,6 +62,7 @@ async function sendMessage() {
 
 async function processInput(input) {
     input = input.toLowerCase();
+
     if (input.startsWith("go ")) {
         const direction = input.split(" ")[1];
         return move(direction);
@@ -77,6 +80,7 @@ async function processInput(input) {
     } else if (input === "inventory") {
         return showInventory();
     } else {
+        console.log('[Client] Sending to API...');
         try {
             const response = await fetch('/talk-to-anorak', {
                 method: 'POST',
@@ -85,12 +89,12 @@ async function processInput(input) {
             });
             const data = await response.json();
             if (data.error) {
-                console.error('Server error:', data.error);
+                console.error('[Client] Server error:', data.error);
                 return generateReply(input);
             }
             return data.reply;
         } catch (error) {
-            console.error('Fetch error:', error);
+            console.error('[Client] Fetch error:', error.message);
             return generateReply(input);
         }
     }
@@ -98,6 +102,7 @@ async function processInput(input) {
 
 function generateReply(input) {
     input = input.toLowerCase();
+    console.log('[Client] Using local reply for:', input);
     if (lastQuestion && input.includes("you")) {
         return handleFollowUp(input);
     }
