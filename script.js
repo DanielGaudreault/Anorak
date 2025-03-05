@@ -64,6 +64,7 @@ async function sendMessage() {
 async function processInput(input) {
     input = input.toLowerCase();
 
+    // Existing game commands
     if (input.startsWith("go ")) {
         const direction = input.split(" ")[1];
         return move(direction);
@@ -80,7 +81,21 @@ async function processInput(input) {
         return useItem(item);
     } else if (input === "inventory") {
         return showInventory();
-    } else {
+    }
+    // New commands with custom responses
+    else if (input === "jump") {
+        return "You leap into the air like a character from an 80s arcade game! Boing!";
+    } else if (input === "dance") {
+        return "You bust out some sweet 80s moves—think Moonwalk meets Breakdance!";
+    } else if (input === "sing") {
+        return "You belt out a tune like it’s karaoke night in the OASIS: 'Sweet dreams are made of this...'";
+    } else if (input === "laugh") {
+        return "You chuckle like a Gunter who just found a hidden Easter Egg—ha ha ha!";
+    } else if (input === "cry") {
+        return "Tears stream down your avatar’s face, a rare moment of emotion in the OASIS.";
+    }
+    // Fallback to server for all other inputs
+    else {
         console.log('[Client] Sending to server...');
         try {
             const response = await fetch('http://localhost:3000/talk-to-anorak', {
@@ -92,10 +107,10 @@ async function processInput(input) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            return data.reply || "Yes"; // Fallback to "Yes" if server fails
+            return data.reply || "Yes"; // Server always returns "Yes"
         } catch (error) {
             console.error('[Client] Fetch error:', error.message);
-            return "Yes"; // Local fallback
+            return "Yes"; // Local fallback if server fails
         }
     }
 }
