@@ -12,6 +12,7 @@
     --info: #209cee;
     --neon-green: #00ff00;
     --neon-blue: #00b8ff;
+    --text-glow: 0 0 10px currentColor;
 }
 
 * {
@@ -22,7 +23,7 @@
 
 body {
     font-family: 'Orbitron', sans-serif;
-    background: url('images/Anorak wallpaper.png') no-repeat center center fixed, 
+    background: url('images/Anorak_wallpaper.png') no-repeat center center fixed, 
                 radial-gradient(circle at center, #26045e 0%, #0d0221 70%);
     background-size: cover;
     color: var(--neon-green);
@@ -32,11 +33,11 @@ body {
     min-height: 100vh;
     margin: 0;
     line-height: 1.6;
-    transition: background-color 0.5s ease;
+    text-transform: uppercase;
 }
 
 body.night {
-    background: url('images/Anorak wallpaper.png') no-repeat center center fixed, 
+    background: url('images/Anorak_wallpaper.png') no-repeat center center fixed, 
                 radial-gradient(circle at center, #1a0344 0%, #0a001a 70%);
     background-size: cover;
     color: var(--secondary);
@@ -46,14 +47,32 @@ body.night {
    CONTAINER STYLES
    ==================== */
 .container {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     padding: 20px;
     border-radius: 10px;
     border: 2px solid var(--neon-green);
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
     margin: 20px auto;
     box-shadow: 0 0 25px rgba(0, 255, 157, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+    animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+    0% { top: 0; }
+    100% { top: 100%; }
 }
 
 /* ====================
@@ -62,20 +81,20 @@ body.night {
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 20px;
     padding: 15px 0;
     border-bottom: 2px solid var(--primary);
     margin-bottom: 20px;
     flex-wrap: wrap;
-    gap: 20px;
 }
 
 .header h1 {
     font-family: 'Press Start 2P', cursive;
     color: var(--primary);
-    text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+    text-shadow: var(--text-glow);
     margin: 0;
     font-size: 1.8rem;
+    letter-spacing: 2px;
 }
 
 .avatar {
@@ -84,21 +103,25 @@ body.night {
     border-radius: 50%;
     border: 2px solid var(--neon-green);
     object-fit: cover;
+    box-shadow: 0 0 15px var(--neon-green);
 }
 
 .stats {
-    text-align: right;
     font-size: 0.9rem;
     color: var(--neon-green);
+    flex-grow: 1;
+    text-align: right;
 }
 
 .stats p {
     margin: 5px 0;
+    font-size: 0.8rem;
 }
 
 .stats span {
     color: var(--primary);
     font-weight: bold;
+    text-shadow: var(--text-glow);
 }
 
 /* ====================
@@ -108,7 +131,13 @@ body.night {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
-    justify-content: space-between;
+    flex-direction: column;
+}
+
+@media (min-width: 992px) {
+    .game-container {
+        flex-direction: row;
+    }
 }
 
 #chat-box {
@@ -119,9 +148,10 @@ body.night {
     padding: 15px;
     overflow-y: auto;
     text-align: left;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     box-shadow: 0 0 15px rgba(0, 184, 255, 0.3);
+    position: relative;
 }
 
 #chat-log {
@@ -140,29 +170,55 @@ body.night {
     background-color: rgba(0, 184, 255, 0.1);
     border-left: 3px solid var(--secondary);
     animation: fadeIn 0.3s ease;
+    line-height: 1.5;
+    text-transform: none;
+}
+
+.message.anorak {
+    border-left-color: var(--primary);
 }
 
 .message strong {
     color: var(--primary);
+    text-shadow: var(--text-glow);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ====================
    SIDEBAR STYLES
    ==================== */
 .sidebar {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-left: 20px;
+    min-width: 250px;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
 }
 
 .inventory-box, .quick-commands {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     border: 1px solid var(--neon-green);
     border-radius: 5px;
     padding: 15px;
     box-shadow: 0 0 15px rgba(0, 184, 255, 0.3);
+    flex: 1;
 }
 
 .inventory-box h3, .quick-commands h3 {
@@ -172,6 +228,12 @@ body.night {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 0.9rem;
+}
+
+.inventory-box img {
+    width: 20px;
+    height: 20px;
 }
 
 #inventory-list {
@@ -183,173 +245,4 @@ body.night {
 }
 
 #inventory-list li {
-    padding: 5px 0;
-    border-bottom: 1px dashed rgba(0, 184, 255, 0.3);
-}
-
-.quick-commands {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.cmd-btn {
-    background-color: var(--dark);
-    color: var(--light);
-    border: 1px solid var(--secondary);
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: 'Orbitron', sans-serif;
-    text-align: left;
-}
-
-.cmd-btn:hover {
-    background-color: var(--secondary);
-    color: var(--dark);
-    transform: translateY(-2px);
-}
-
-/* ====================
-   INPUT AREA
-   ==================== */
-.input-container {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-#user-input {
-    flex: 1;
-    padding: 12px 15px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid var(--neon-green);
-    border-radius: 5px;
-    color: var(--neon-green);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    outline: none;
-    transition: border 0.3s ease;
-}
-
-#user-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-}
-
-#send-btn {
-    padding: 12px 25px;
-    background-color: var(--neon-green);
-    color: black;
-    border: none;
-    border-radius: 5px;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-#send-btn:hover {
-    background-color: var(--secondary);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 184, 255, 0.4);
-}
-
-/* ====================
-   ANIMATIONS & EFFECTS
-   ==================== */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.pulse {
-    animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.shake {
-    animation: shake 0.5s;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
-}
-
-.victory {
-    animation: victory 2s;
-}
-
-@keyframes victory {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.1) rotate(5deg); }
-    50% { transform: scale(1.2) rotate(-5deg); }
-    75% { transform: scale(1.1) rotate(5deg); }
-    100% { transform: scale(1); }
-}
-
-/* ====================
-   RESPONSIVE DESIGN
-   ==================== */
-@media (max-width: 768px) {
-    body {
-        display: block;
-        height: auto;
-        padding: 10px;
-    }
-    
-    .container {
-        width: 95%;
-        margin: 10px auto;
-    }
-    
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .avatar {
-        width: 60px;
-        height: 60px;
-        margin: 0 auto;
-    }
-    
-    .stats {
-        text-align: center;
-    }
-    
-    .game-container {
-        flex-direction: column;
-    }
-    
-    #chat-box {
-        height: 300px;
-    }
-    
-    .sidebar {
-        margin-left: 0;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    
-    .inventory-box, .quick-commands {
-        flex: 1;
-        min-width: 200px;
-    }
-}
-
-/* ====================
-   SCORE & KEY STYLES
-   ==================== */
-#score, #keys-found {
-    font-weight: bold;
-    color: var(--primary);
-}
+    padding: 8
