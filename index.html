@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anorak AI - Ready Player One Adventure</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.min.css">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -11,48 +12,55 @@
 <body class="day">
     <div class="container">
         <div class="header">
-            <img src="images/Anorak_avatar.png" alt="Anorak Avatar" class="avatar">
+            <img src="images/Anorak_avatar.png" alt="Anorak Avatar" class="avatar pulse">
             <div class="header-text">
-                <h1>Anorak AI</h1>
+                <h1>ANORAK AI</h1>
                 <div class="stats">
-                    <p>Score: <span id="score">0</span> | 
-                    Keys: <span id="keys-found">0/3</span> | 
-                    Status: <span id="status">Gunter</span></p>
-                    <p>Health: <span id="health">100</span> | 
-                    Energy: <span id="energy">100</span> | 
-                    <span id="location">Middletown</span></p>
+                    <p>SCORE: <span id="score">0</span> | 
+                    KEYS: <span id="keys-found">0/3</span> | 
+                    STATUS: <span id="status">GUNTER</span></p>
+                    <p>HEALTH: <span id="health">100</span>% | 
+                    ENERGY: <span id="energy">100</span>% | 
+                    LOC: <span id="location">MIDDLETOWN</span></p>
                 </div>
             </div>
         </div>
         
         <div class="game-container">
             <div id="chat-box">
-                <div id="chat-log"></div>
+                <div id="chat-log">
+                    <div class="message anorak">
+                        <strong>ANORAK:</strong> Greetings, Gunter! I'm Anorak, Halliday's avatar. The Easter Egg hunt begins!
+                    </div>
+                    <div class="message anorak">
+                        <strong>ANORAK:</strong> Type 'look' to examine your surroundings or 'help' for commands.
+                    </div>
+                </div>
             </div>
             
             <div class="sidebar">
                 <div class="inventory-box">
-                    <h3><img src="images/inventory_icon.png" alt="Inventory"> Inventory</h3>
+                    <h3><img src="images/inventory_icon.png" alt="Inventory"> INVENTORY</h3>
                     <ul id="inventory-list"></ul>
                 </div>
                 <div class="quick-commands">
-                    <h3>Quick Commands</h3>
-                    <button class="cmd-btn" data-cmd="look">Look Around</button>
-                    <button class="cmd-btn" data-cmd="inventory">Check Inventory</button>
-                    <button class="cmd-btn" data-cmd="map">Show Map</button>
-                    <button class="cmd-btn" data-cmd="help">Help</button>
+                    <h3>QUICK COMMANDS</h3>
+                    <button class="cmd-btn" data-cmd="look" data-tippy-content="Examine your surroundings">LOOK</button>
+                    <button class="cmd-btn" data-cmd="inventory" data-tippy-content="Check your items">INVENTORY</button>
+                    <button class="cmd-btn" data-cmd="map" data-tippy-content="Show OASIS map">MAP</button>
+                    <button class="cmd-btn" data-cmd="help" data-tippy-content="Show help menu">HELP</button>
                     <div class="emote-buttons">
-                        <button class="emote-btn" data-cmd="jump">Jump</button>
-                        <button class="emote-btn" data-cmd="dance">Dance</button>
-                        <button class="emote-btn" data-cmd="sing">Sing</button>
+                        <button class="emote-btn" data-cmd="jump" data-tippy-content="Jump for joy!">JUMP</button>
+                        <button class="emote-btn" data-cmd="dance" data-tippy-content="Dance like in the Distracted Globe">DANCE</button>
+                        <button class="emote-btn" data-cmd="sing" data-tippy-content="Sing an 80s tune">SING</button>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="input-container">
-            <input type="text" id="user-input" placeholder="Enter your command, Gunter..." autocomplete="off">
-            <button id="send-btn">Send</button>
+            <input type="text" id="user-input" placeholder="ENTER YOUR COMMAND, GUNTER..." autocomplete="off" data-tippy-content="Type commands like 'go north', 'take key', or 'attack enemy'">
+            <button id="send-btn" data-tippy-content="Send your command">SEND</button>
         </div>
     </div>
 
@@ -61,8 +69,11 @@
     <audio id="success-sound" src="sounds/success.wav"></audio>
     <audio id="error-sound" src="sounds/error.wav"></audio>
     <audio id="combat-sound" src="sounds/combat.wav"></audio>
+    <audio id="key-sound" src="sounds/key_pickup.wav"></audio>
     <audio id="music" loop src="sounds/background.mp3"></audio>
     
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
