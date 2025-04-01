@@ -1,6 +1,8 @@
 # Anorak AI - Ready Player One Adventure
 
-A standalone, browser-based game inspired by *Ready Player One*. Hunt for Halliday’s Easter Egg in a rich OASIS world!
+[Play the game online here!](https://danielgaudreault.github.io/Anorak/)
+
+A standalone, browser-based game inspired by *Ready Player One*. Hunt for Halliday's Easter Egg in a rich OASIS world!
 
 ## Setup
 1. Place all files in a folder:
