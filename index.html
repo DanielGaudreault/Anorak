@@ -12,14 +12,16 @@
     <div class="container">
         <div class="header">
             <img src="images/Anorak_avatar.png" alt="Anorak Avatar" class="avatar">
-            <h1>Anorak AI</h1>
-            <div class="stats">
-                <p>Score: <span id="score">0</span> | 
-                Keys: <span id="keys-found">0/3</span> | 
-                Status: <span id="status">Gunter</span></p>
-                <p>Health: <span id="health">100</span> | 
-                Energy: <span id="energy">100</span> | 
-                Location: <span id="location">middletown</span></p>
+            <div class="header-text">
+                <h1>Anorak AI</h1>
+                <div class="stats">
+                    <p>Score: <span id="score">0</span> | 
+                    Keys: <span id="keys-found">0/3</span> | 
+                    Status: <span id="status">Gunter</span></p>
+                    <p>Health: <span id="health">100</span> | 
+                    Energy: <span id="energy">100</span> | 
+                    <span id="location">Middletown</span></p>
+                </div>
             </div>
         </div>
         
@@ -39,6 +41,11 @@
                     <button class="cmd-btn" data-cmd="inventory">Check Inventory</button>
                     <button class="cmd-btn" data-cmd="map">Show Map</button>
                     <button class="cmd-btn" data-cmd="help">Help</button>
+                    <div class="emote-buttons">
+                        <button class="emote-btn" data-cmd="jump">Jump</button>
+                        <button class="emote-btn" data-cmd="dance">Dance</button>
+                        <button class="emote-btn" data-cmd="sing">Sing</button>
+                    </div>
                 </div>
             </div>
         </div>
